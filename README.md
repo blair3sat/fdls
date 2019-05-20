@@ -4,9 +4,12 @@ The FDLS (frequency-domain least squares) algorithm
 converts discrete arrays of desired frequency, amplitude, phase, and delay samples,
 to the optimal numerator and denominator coefficients of a 
 IIR transfer function or difference function.
+
+### Details
 To do this, it computes the desired output values in Y,
-the sequences of inputs and outputs (u and y) for N and D 
-time samples away in X, and then computes the pseudoinverse
+and the transfer function / difference function inputs in X.
+These are the sequences of inputs and outputs (u and y) for N and D 
+time samples back in time. Then it computes the pseudoinverse
 of this linear system of equations to find theta, the coefficients
 of b and a.
 
