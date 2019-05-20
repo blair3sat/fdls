@@ -8,14 +8,14 @@ khz = 1000
 
 # %%
 
-def fdls(frequency, amplitude, phase, n=2, d=2, group_delay=None, fs=44 * khz):
+def fdls(frequency, amplitude, phase, n=2, d=2, sample_delay=None, fs=44 * khz):
     """
     :param frequency: Numpy array of frequency points
     :param amplitude: Numpy array of amplitude points
     :param phase: Numpy array of phase points
     :param n: Number of coefficients in numerator
     :param d: Number of coefficients in denominator
-    :param group_delay: Numpy array of delay samples by frequency
+    :param sample_delay: Numpy array of delay samples by frequency
     :param fs: Sample rate
     :return: coefficients of transfer function and
     difference function representation of an IIR filter
@@ -38,9 +38,9 @@ def fdls(frequency, amplitude, phase, n=2, d=2, group_delay=None, fs=44 * khz):
     frequency = frequency.reshape((-1, 1))
     amplitude = amplitude.reshape((-1, 1))
     phase = phase.reshape((-1, 1))
-    if (group_delay == None):
-        group_delay = np.zeros(frequency.shape)
-    group_delay = group_delay.reshape((-1, 1))
+    if sample_delay is None:
+        sample_delay = np.zeros(frequency.shape)
+    sample_delay = sample_delay.reshape((-1, 1))
 
     # Calculate the basis frequencies
     w = 2 * np.pi * frequency
@@ -58,7 +58,7 @@ def fdls(frequency, amplitude, phase, n=2, d=2, group_delay=None, fs=44 * khz):
     uSpreadArray = np.arange(0, -(n + 1), -1)
 
     # Generate the X vector for both input (u) and output (y) values
-    yX = -amplitude * np.cos(ySpreadArray * alpha + phase - group_delay * alpha)
+    yX = -amplitude * np.cos(ySpreadArray * alpha + phase - sample_delay * alpha)
     uX = np.cos(uSpreadArray * alpha)
 
     # Concatenate the X vector
